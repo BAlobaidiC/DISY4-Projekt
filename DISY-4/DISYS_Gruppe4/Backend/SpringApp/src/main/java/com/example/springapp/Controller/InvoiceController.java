@@ -24,4 +24,11 @@ public class InvoiceController {
         data.put("gridPortion", 5.63);
         return List.of(data);
     }
+    @GetMapping("/test-intellij")
+    public String testIntelliJ() {
+        return "Ali testet gerade IntelliJ!";
+    }
+
 }
+
+// TODO: Test-Kommentar von Ali am 05.06.
