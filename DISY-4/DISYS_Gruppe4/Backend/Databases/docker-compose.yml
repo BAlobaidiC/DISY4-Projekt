@@ -1,14 +1,22 @@
 services:
   database:
+    container_name: disys-db
     image: postgres:alpine
     ports:
-      - '5432:5432'
+      - '5433:5432'
     environment:
       - POSTGRES_USER=disysuser
       - POSTGRES_PASSWORD=disyspw
-  
+      - POSTGRES_DB=disysdb
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
   rabbitmq:
+    container_name: disys-rabbitmq
     image: rabbitmq:management-alpine
     ports:
       - '5672:5672'
       - '15672:15672'
+
+volumes:
+  postgres_data:
