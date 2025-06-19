@@ -1,0 +1,4 @@
+com\example\springapp\SpringAppApplication.class
+com\example\springapp\Controller\InvoiceController.class
+com\example\springapp\Queue\Queue.class
+com\example\springapp\Service\InvoiceService.class
