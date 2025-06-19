@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   database:
     container_name: disys-db
@@ -10,6 +12,11 @@ services:
       - POSTGRES_DB=disysdb
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - ./customer_db/init.sql:/docker-entrypoint-initdb.d/01_customer.sql
+      - ./station_1_db/init.sql:/docker-entrypoint-initdb.d/02_station1.sql
+      - ./station_2_db/init.sql:/docker-entrypoint-initdb.d/03_station2.sql
+      - ./station_3_db/init.sql:/docker-entrypoint-initdb.d/04_station3.sql
+      - ./stations_db/init.sql:/docker-entrypoint-initdb.d/05_stations.sql
 
   rabbitmq:
     container_name: disys-rabbitmq
