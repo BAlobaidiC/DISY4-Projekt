@@ -4,9 +4,10 @@
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
-        <option value="$USER_HOME$/OneDrive - FH Technikum Wien/Semester 4/Disys/DISYS_GruppeW/DISYS_GruppeW/Backend/DataCollectionReceiver/pom.xml" />
-        <option value="$PROJECT_DIR$/DISYS_Gruppe4/Frontend/JavaFXApp/pom.xml" />
         <option value="$PROJECT_DIR$/DISYS_Gruppe4/Backend/DataCollectionReceiver/pom.xml" />
+        <option value="$PROJECT_DIR$/DISYS_Gruppe4/Backend/SpringApp/pom.xml" />
+        <option value="$PROJECT_DIR$/DISYS_Gruppe4/Frontend/JavaFXApp/pom.xml" />
+        <option value="$PROJECT_DIR$/DISYS_Gruppe4/Backend/DataCollectionDispatcher/pom.xml" />
       </list>
     </option>
   </component>
