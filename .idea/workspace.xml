@@ -6,6 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="8030ee97-d8d5-4188-a59b-05517eea3e49" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DISY-4/DISYS_Gruppe4/Frontend/JavaFXApp/src/main/java/com/example/javafxapp/MainApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/DISY-4/DISYS_Gruppe4/Frontend/JavaFXApp/src/main/java/com/example/javafxapp/MainApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DISY-4/DISYS_Gruppe4/Frontend/JavaFXApp/src/main/java/com/example/javafxapp/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/DISY-4/DISYS_Gruppe4/Frontend/JavaFXApp/src/main/java/com/example/javafxapp/MainController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,7 +63,7 @@
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Spring Boot.SpringAppApplication.executor": "Run",
-    "git-widget-placeholder": "EditFrontEnd",
+    "git-widget-placeholder": "PDFGenerator",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/GIT3/Projekt",
@@ -76,7 +78,7 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="JUnit.DataCollectionReceiverTest">
+  <component name="RunManager" selected="Spring Boot.SpringAppApplication">
     <configuration name="MainDCDispatcher" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="org.example.MainDCDispatcher" />
       <module name="DataCollectionDispatcher" />
@@ -210,7 +212,7 @@
       <workItem from="1750332956693" duration="594000" />
       <workItem from="1750334027914" duration="5611000" />
       <workItem from="1750358157211" duration="2589000" />
-      <workItem from="1750500589655" duration="5341000" />
+      <workItem from="1750500589655" duration="6620000" />
     </task>
     <servers />
   </component>
