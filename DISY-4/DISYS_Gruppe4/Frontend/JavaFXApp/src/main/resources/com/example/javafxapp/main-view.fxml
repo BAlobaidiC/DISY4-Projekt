@@ -1,32 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER_RIGHT" prefHeight="380.0" prefWidth="450.0" spacing="20.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainController">
-
+<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.example.javafxapp.MainController">
     <padding>
-        <Insets bottom="22.0" left="22.0" right="22.0" top="22.0" />
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
     </padding>
 
+    <Label text="Rechnungsdaten abrufen"/>
+    <TextField fx:id="CIDField1" promptText="Kunden-ID eingeben"/>
+    <Button fx:id="gatherDataBtn" text="Daten abrufen"/>
+    <Label fx:id="InvoiceInformation" visible="false"/>
 
-    <children>
-        <Pane prefHeight="295.0" prefWidth="335.0">
-
-            <children>
-                <Button fx:id="downloadBtn" layoutX="200.0" layoutY="165.0" mnemonicParsing="false" text="Invoice Download" />
-                <TextField fx:id="CIDField1" layoutX="30.0" layoutY="75.0" />
-                <Label layoutX="30.0" layoutY="50.0" text="Customer_ID:" />
-                <Button fx:id="gatherDataBtn" layoutX="200.0" layoutY="75.0" mnemonicParsing="false" text="Gather Data" />
-                <Label layoutX="30.0" layoutY="140.0" text="Customer_ID:" />
-                <TextField fx:id="CIDField2" layoutX="30.0" layoutY="165.0" />
-                <Label fx:id="InvoiceInformation" disable="true" layoutX="30.0" layoutY="105.0" prefHeight="25.0" prefWidth="360.0" text="" />
-                <TextArea fx:id="InvoiceCreationresponse" disable="true" layoutX="30.0" layoutY="200.0" prefHeight="70.0" prefWidth="365.0" visible="false" />
-            </children>
-
-        </Pane>
-    </children>
-
-
+    <Label text="Rechnung herunterladen"/>
+    <TextField fx:id="CIDField2" promptText="Kunden-ID eingeben"/>
+    <Button fx:id="downloadBtn" text="Rechnung herunterladen"/>
+    <TextArea fx:id="InvoiceCreationresponse" visible="false" wrapText="true"/>
 </VBox>
