@@ -5,11 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8030ee97-d8d5-4188-a59b-05517eea3e49" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -55,6 +50,8 @@
     "Application.MainDCDispatcher.executor": "Run",
     "Docker.Databases: Compose Deployment.executor": "Run",
     "JUnit.DataCollectionDispatcherTest.executor": "Run",
+    "JUnit.DataCollectionReceiverTest.executor": "Run",
+    "JUnit.PDFGeneratorTest.customerRealInstanceTest.executor": "Run",
     "JUnit.PDFGeneratorTest.executor": "Run",
     "RequestMappingsPanelOrder0": "0",
     "RequestMappingsPanelOrder1": "1",
@@ -64,7 +61,7 @@
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Spring Boot.SpringAppApplication.executor": "Run",
-    "git-widget-placeholder": "PDFGenerator",
+    "git-widget-placeholder": "EditFrontEnd",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/GIT3/Projekt",
@@ -79,7 +76,7 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="JUnit.PDFGeneratorTest">
+  <component name="RunManager" selected="JUnit.DataCollectionReceiverTest">
     <configuration name="MainDCDispatcher" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="org.example.MainDCDispatcher" />
       <module name="DataCollectionDispatcher" />
@@ -103,6 +100,21 @@
       </extension>
       <option name="PACKAGE_NAME" value="org.example" />
       <option name="MAIN_CLASS_NAME" value="org.example.DataCollectionDispatcherTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DataCollectionReceiverTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="DataCollectionReceiver" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.example.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.example" />
+      <option name="MAIN_CLASS_NAME" value="org.example.DataCollectionReceiverTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -159,15 +171,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Databases: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
-      <deployment type="docker-compose.yml">
-        <settings>
-          <option name="envFilePath" value="" />
-          <option name="sourceFilePath" value="DISY-4/DISYS_Gruppe4/Backend/Databases/docker-compose.yml" />
-        </settings>
-      </deployment>
-      <method v="2" />
-    </configuration>
     <configuration default="true" type="docker-deploy" factoryName="docker-compose.yml" temporary="true">
       <deployment type="docker-compose.yml">
         <settings />
@@ -176,11 +179,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.DataCollectionReceiverTest" />
+        <item itemvalue="JUnit.DataCollectionDispatcherTest" />
         <item itemvalue="JUnit.PDFGeneratorTest" />
         <item itemvalue="JUnit.PDFGeneratorTest.customerRealInstanceTest" />
         <item itemvalue="Application.MainDCDispatcher" />
-        <item itemvalue="Docker.Databases: Compose Deployment" />
-        <item itemvalue="JUnit.DataCollectionDispatcherTest" />
       </list>
     </recent_temporary>
   </component>
@@ -207,7 +210,7 @@
       <workItem from="1750332956693" duration="594000" />
       <workItem from="1750334027914" duration="5611000" />
       <workItem from="1750358157211" duration="2589000" />
-      <workItem from="1750500589655" duration="3089000" />
+      <workItem from="1750500589655" duration="5341000" />
     </task>
     <servers />
   </component>
