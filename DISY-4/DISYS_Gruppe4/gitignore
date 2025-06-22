@@ -1,0 +1,72 @@
+# ===============================
+# Build folders
+# ===============================
+target/
+build/
+*/target/
+*/build/
+
+# ===============================
+# IntelliJ IDEA
+# ===============================
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Ignore IntelliJ shelf and workspace changes
+.idea/shelf/
+.idea/workspace.xml
+.idea/dataSources.local.xml
+.idea/usage.statistics.xml
+.idea/assetWizard.xml
+.idea/misc.xml
+
+# ===============================
+# Eclipse
+# ===============================
+.classpath
+.project
+.settings/
+.sts4-cache/
+
+# ===============================
+# NetBeans
+# ===============================
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+# ===============================
+# Visual Studio Code
+# ===============================
+.vscode/
+
+# ===============================
+# macOS system files
+# ===============================
+.DS_Store
+
+# ===============================
+# Log files
+# ===============================
+*.log
+
+# ===============================
+# Temporary or backup files
+# ===============================
+*.tmp
+*.bak
+*.swp
+*.swo
+*~
+
+# ===============================
+# Maven Wrapper
+# ===============================
+.mvn/
+!/.mvn/wrapper/maven-wrapper.jar
+mvnw
+mvnw.cmd

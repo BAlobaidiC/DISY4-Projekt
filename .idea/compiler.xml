@@ -8,6 +8,8 @@
         <outputRelativeToContentRoot value="true" />
         <module name="SpringApp" />
         <module name="DataCollectionDispatcher" />
+        <module name="DataCollectionReceiver" />
+        <module name="PDFGenerator" />
         <module name="JavaFXApp" />
       </profile>
     </annotationProcessing>
