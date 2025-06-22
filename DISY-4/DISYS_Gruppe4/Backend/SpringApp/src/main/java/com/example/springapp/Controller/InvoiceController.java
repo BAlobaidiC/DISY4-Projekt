@@ -1,27 +1,46 @@
 package com.example.springapp.Controller;
 
-import org.springframework.web.bind.annotation.*;
+import com.example.springapp.Service.InvoiceService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.*;
+import java.util.List;
 
 @RestController
-@RequestMapping("/energy")
 public class InvoiceController {
 
-    @GetMapping("/current")
-    public Map<String, Double> getCurrent() {
-        Map<String, Double> result = new HashMap<>();
-        result.put("communityDepleted", 100.0);
-        result.put("gridPortion", 5.63);
-        return result;
+    private final InvoiceService invoiceService;
+
+    public InvoiceController(InvoiceService invoiceService) {
+        this.invoiceService = invoiceService;
     }
 
-    @GetMapping("/historical")
-    public List<Map<String, Object>> getHistorical(@RequestParam String start, @RequestParam String end) {
-        Map<String, Object> data = new HashMap<>();
-        data.put("hour", "2025-01-10T14:00:00");
-        data.put("communityDepleted", 100.0);
-        data.put("gridPortion", 5.63);
-        return List.of(data);
+
+    @PostMapping("/invoices/{customerID}")
+    public ResponseEntity<String> gatherData(@PathVariable String customerID) {
+
+        boolean requestSent = invoiceService.createInvoice(customerID);
+
+        if (requestSent) return new ResponseEntity<>("The request to gather the data has been sent!", HttpStatus.OK);
+
+        return new ResponseEntity<>("The request to gather the data could not be sent!", HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+
+    @GetMapping("/invoices/{customerID}")
+    public ResponseEntity<List<String>> gatherInvoice(@PathVariable String customerID) {
+
+        List<String> invoiceInfo = invoiceService.getInvoice(Integer.parseInt(customerID));
+
+        if (invoiceInfo != null) {
+            return new ResponseEntity<>(invoiceInfo, HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
 }
