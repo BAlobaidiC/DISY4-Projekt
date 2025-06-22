@@ -19,20 +19,21 @@ public class Queue {
     private final static String DCD_DCR = "DCD_DCR";
     private final static String HOST = "localhost";
     private final static int PORT = 5672;
-
+    private final static String USERNAME = "guest";
+    private final static String PASSWORD = "guest";
 
     private int id;
     private static ConnectionFactory factory;
-
 
     public Queue() {
         factory = new ConnectionFactory();
         factory.setHost(HOST);
         factory.setPort(PORT);
+        factory.setUsername(USERNAME);
+        factory.setPassword(PASSWORD);
     }
 
     public void receive(List<Station> stations) throws IOException, TimeoutException {
-
         Connection connection = factory.newConnection();
         Channel channel = connection.createChannel();
 
@@ -40,15 +41,12 @@ public class Queue {
         System.out.println(" [*] Waiting for messages. Press CTRL+C to exit");
         
         DeliverCallback deliverCallback = (consumerTag, delivery) -> {
-
             String message = new String(delivery.getBody(), StandardCharsets.UTF_8);
             System.out.println(" [x] Received '" + message + "' " + LocalTime.now());
             this.id = Integer.parseInt(message);
 
             try {
-
                 send(stations);
-
             } catch (TimeoutException e) {
                 throw new RuntimeException(e);
             }
@@ -58,20 +56,16 @@ public class Queue {
     }
 
     private void send(List<Station> stations) throws IOException, TimeoutException {
-
         int i = 0;
 
-        try (
-                Connection connection = factory.newConnection();
-                Channel channel = connection.createChannel()
-        ) {
+        try (Connection connection = factory.newConnection();
+             Channel channel = connection.createChannel()) {
+            
             channel.queueDeclare(DCD_SDC, false, false, false, null);
 
             for (Station s : stations) {
                 String message = "db_url=" + s.getUrl() + "&id=" + this.id;
                 channel.basicPublish("", DCD_SDC, null, message.getBytes(StandardCharsets.UTF_8));
-                
-                //channel.basicPublish("", QUEUE_NAME, null, message.getBytes(StandardCharsets.UTF_8));
                 i++;
                 System.out.println(" [" + i + "] has been sent '" + this.id + "' to the StationDataCollector");
             }
@@ -80,11 +74,8 @@ public class Queue {
     }
 
     private void inform(int i) throws IOException, TimeoutException {
-
-        try (
-                Connection connection = factory.newConnection();
-                Channel channel = connection.createChannel()
-        ) {
+        try (Connection connection = factory.newConnection();
+             Channel channel = connection.createChannel()) {
 
             channel.queueDeclare(DCD_DCR, false, false, false, null);
 
