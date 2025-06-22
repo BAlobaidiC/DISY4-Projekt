@@ -4,15 +4,17 @@
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
+        <option value="$PROJECT_DIR$/DISYS_Gruppe4/Backend/DataCollectionReceiver/pom.xml" />
+        <option value="$PROJECT_DIR$/DISYS_Gruppe4/Backend/SpringApp/pom.xml" />
+        <option value="$PROJECT_DIR$/DISYS_Gruppe4/Frontend/JavaFXApp/pom.xml" />
+        <option value="$PROJECT_DIR$/DISYS_Gruppe4/Backend/DataCollectionDispatcher/pom.xml" />
         <option value="$PROJECT_DIR$/DISY-4/DISYS_Gruppe4/Backend/SpringApp/pom.xml" />
-        <option value="$PROJECT_DIR$/DISY-4/DISYS_Gruppe4/Frontend/JavaFXApp/pom.xml" />
-        <option value="$PROJECT_DIR$/DISY-4/DISYS_Gruppe4/Backend/DataCollectionDispatcher/pom.xml" />
-        <option value="$PROJECT_DIR$/DISY-4/DISYS_Gruppe4/Backend/PDFGenerator/pom.xml" />
+        <option value="$PROJECT_DIR$/DISY-4/DISYS_Gruppe4/Backend/StationDataCollector/pom.xml" />
         <option value="$PROJECT_DIR$/DISY-4/DISYS_Gruppe4/Backend/DataCollectionReceiver/pom.xml" />
       </list>
     </option>
   </component>
-
+  <component name="ProjectRootManager" version="2" project-jdk-name="openjdk-24 (2)" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
 </project>
