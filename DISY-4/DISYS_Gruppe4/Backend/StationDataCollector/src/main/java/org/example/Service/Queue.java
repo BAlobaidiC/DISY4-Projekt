@@ -10,69 +10,97 @@ import java.io.IOException;
 import java.time.LocalTime;
 import java.util.concurrent.TimeoutException;
 
-
 public class Queue {
-
     private final static String DCD_SDC = "DCD_SDC";
     private final static String SDC_DCR = "SDC_DCR";
-
     private final static String HOST = "localhost";
-    private final static int PORT = 30003;
+    private final static int PORT = 5672;
+    private final static String USERNAME = "guest";
+    private final static String PASSWORD = "guest";
 
     private int id;
     private static ConnectionFactory factory;
 
     public Queue() {
-
         factory = new ConnectionFactory();
         factory.setHost(HOST);
         factory.setPort(PORT);
+        factory.setUsername(USERNAME);
+        factory.setPassword(PASSWORD);
     }
 
     public void receive() throws IOException, TimeoutException {
+        Connection connection = null;
+        Channel channel = null;
+        
+        try {
+            connection = factory.newConnection();
+            channel = connection.createChannel();
 
-        Connection connection = factory.newConnection();
-        Channel channel = connection.createChannel();
+            channel.queueDeclare(DCD_SDC, false, false, false, null);
+            System.out.println(" [*] Warte auf Nachrichten. Drücken Sie STRG+C zum Beenden");
 
-        channel.queueDeclare(DCD_SDC, false, false, false, null);
-        System.out.println(" [*] Waiting for messages. Press CTRL+C to exit");
+            DeliverCallback deliverCallback = (consumerTag, delivery) -> {
+                String message = new String(delivery.getBody(), StandardCharsets.UTF_8);
+                System.out.println(" [x] Empfangen '" + message + "' " + LocalTime.now());
 
-        DeliverCallback deliverCallback = (consumerTag, delivery) -> {
-            String message = new String(delivery.getBody(), StandardCharsets.UTF_8);
-            System.out.println(" [x] Received '" + message + "' " + LocalTime.now());
+                try {
+                    float kwh = getKWH(message);
+                    send(kwh);
+                } catch (Exception e) {
+                    System.err.println("Fehler bei der Verarbeitung der Nachricht: " + e.getMessage());
+                }
+            };
 
-            float kwh = getKWH(message);
-
-            try {
-                send(kwh);
-
-            } catch (TimeoutException e) {
-                throw new RuntimeException(e);
+            channel.basicConsume(DCD_SDC, true, deliverCallback, consumerTag -> {});
+            
+            // Blockiere den Thread, damit die Anwendung nicht beendet wird
+            while (true) {
+                Thread.sleep(1000);
             }
-        };
-
-        channel.basicConsume(DCD_SDC, true, deliverCallback, consumerTag -> {});
-    }
-    private void send(float kwh) throws IOException, TimeoutException {
-
-        try (
-                Connection connection = factory.newConnection();
-                Channel channel = connection.createChannel()
-        ) {
-
-            channel.queueDeclare(SDC_DCR, false, false, false, null);
-            String message = String.format("id=%s&kwh=%.1f", id, kwh);
-            channel.basicPublish("", SDC_DCR, null, message.getBytes(StandardCharsets.UTF_8));
-            System.out.println(message);
+            
+        } catch (Exception e) {
+            System.err.println("Kritischer Fehler: " + e.getMessage());
+        } finally {
+            try {
+                if (channel != null && channel.isOpen()) {
+                    channel.close();
+                }
+                if (connection != null && connection.isOpen()) {
+                    connection.close();
+                }
+            } catch (Exception e) {
+                System.err.println("Fehler beim Schließen der Verbindung: " + e.getMessage());
+            }
         }
     }
 
-    public float getKWH(String message) {
+    private void send(float kwh) throws IOException, TimeoutException {
+        try (Connection connection = factory.newConnection();
+             Channel channel = connection.createChannel()) {
 
-        String[] parts = message.split("db_url=localhost:|&id=");
-        int port = Integer.parseInt(parts[1]);
-        this.id = Integer.parseInt(parts[2]);
-        Database db = new Database(port);
-        return db.select(id);
+            channel.queueDeclare(SDC_DCR, false, false, false, null);
+            String message = String.format("id=%d&kwh=%.1f", id, kwh);
+            channel.basicPublish("", SDC_DCR, null, message.getBytes(StandardCharsets.UTF_8));
+            System.out.println(" [x] Gesendet: " + message);
+        }
+    }
+
+    private float getKWH(String message) {
+        try {
+            String[] parts = message.split("db_url=localhost:|&id=");
+            if (parts.length < 3) {
+                throw new IllegalArgumentException("Ungültiges Nachrichtenformat");
+            }
+            
+            int port = Integer.parseInt(parts[1]);
+            this.id = Integer.parseInt(parts[2]);
+            
+            Database db = new Database(port);
+            return db.select(id);
+        } catch (Exception e) {
+            System.err.println("Fehler beim Parsen der Nachricht: " + e.getMessage());
+            throw e;
+        }
     }
 }
