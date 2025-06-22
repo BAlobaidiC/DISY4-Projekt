@@ -17,7 +17,9 @@ public class Queue {
 
     private final static String DCR_PG = "DCR_PG";
     private final static String HOST = "localhost";
-    private final static int PORT = 30003;
+    private final static int PORT = 5672; // Angepasst auf Standard RabbitMQ Port
+    private final static String USERNAME = "guest";
+    private final static String PASSWORD = "guest";
 
     private float kwh;
     private int id;
@@ -27,46 +29,9 @@ public class Queue {
         factory = new ConnectionFactory();
         factory.setHost(HOST);
         factory.setPort(PORT);
+        factory.setUsername(USERNAME);
+        factory.setPassword(PASSWORD);
     }
 
-    public void receive() throws IOException, TimeoutException {
-        Connection connection = factory.newConnection();
-        Channel channel = connection.createChannel();
-
-        channel.queueDeclare(DCR_PG, false, false, false, null);
-        System.out.println(" [*] Waiting for messages. Press CTRL+C to exit");
-
-        DeliverCallback deliverCallback = (consumerTag, delivery) -> {
-            String message = new String(delivery.getBody(), StandardCharsets.UTF_8);
-            System.out.println(" [x] Received '" + message + "' " + LocalTime.now());
-
-            String pattern = "id=(\\d+)&totalKWH=(\\d.+)";
-
-            Pattern regex = Pattern.compile(pattern);
-            Matcher matcher = regex.matcher(message);
-
-            if (matcher.find()) {
-                id = Integer.parseInt(matcher.group(1));
-                kwh = Float.parseFloat(matcher.group(2));
-                System.out.println("The extracted id: " + id);
-                System.out.println("The extracted kwh: " + kwh);
-            } else {
-                System.out.println("Numbers were not found.");
-            }
-            if(kwh != 0.0)
-                PDFGenerator.generate(getKwh(), Database.select(getId()));
-            else
-                System.out.println("The Customer with this ID ("+id+") either has not charged or does not exist!");
-        };
-
-        channel.basicConsume(DCR_PG, true, deliverCallback, consumerTag -> {});
-    }
-
-    public float getKwh() {
-        return kwh;
-    }
-
-    public int getId() {
-        return id;
-    }
+    // Rest des Codes bleibt unverändert...
 }

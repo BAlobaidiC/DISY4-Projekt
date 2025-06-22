@@ -13,25 +13,41 @@ import java.util.ArrayList;
 import java.util.concurrent.TimeoutException;
 
 public class Queue {
-//Die Klasse empfängt Nachrichten von zwei verschiedenen Queues (DCD_DCR und SDC_DCR), verarbeitet sie und sendet das Ergebnis an eine dritte Queue (DCR_PG).
-// Sie dient als Bindeglied zwischen verschiedenen Komponenten, die über RabbitMQ kommunizieren.
-    private final static String DCD_DCR = "DCD_DCR";  // Queue für den DataCollectionDispatcher, der die erwarteten Nachrichten sendet
-    private final static String SDC_DCR = "SDC_DCR"; // Queue für den StationDataCollector, der die tatsächlichen Nachrichten sendet
-    private final static String DCR_PG = "DCR_PG";// Queue für den PDFGenerator, der die berechneten Gesamtsummen empfängt
+    private final static String DCD_DCR = "DCD_DCR";
+    private final static String SDC_DCR = "SDC_DCR";
+    private final static String DCR_PG = "DCR_PG";
     private final static String HOST = "localhost";
-    private final static int PORT = 30003;
-    private int expectedCount;   // Wie viele Nachrichten erwartet werden (kommt von DCD_DCR)
-    private int receivedCount = 0; //wiw viele Nachrichten empfangen wurden (kommt von SDC_DCR)
+    private final static int PORT = 5672; // Standardport für RabbitMQ
+    private final static String USERNAME = "guest";
+    private final static String PASSWORD = "guest";
+    
+    private int expectedCount;
+    private int receivedCount = 0;
 
-    private static ConnectionFactory factory; // Factory für RabbitMQ-Verbindungen, um Nachrichten zu empfangen und zu senden
+    private static ConnectionFactory factory;
 
-    // Konstruktor, der die Verbindungseinstellungen für RabbitMQ initialisiert.
     public Queue() {
         factory = new ConnectionFactory();
         factory.setHost(HOST);
         factory.setPort(PORT);
+        factory.setUsername(USERNAME);
+        factory.setPassword(PASSWORD);
     }
 
+// Diese Klasse empfängt Nachrichten von zwei verschiedenen Queues (DCD_DCR und SDC_DCR), verarbeitet sie und sendet das Ergebnis an eine dritte Queue (DCR_PG).
+// Sie dient als Bindeglied zwischen verschiedenen Komponenten, die über RabbitMQ kommunizieren.
+    private final static String DCD_DCR1 = "DCD_DCR";  // Queue für den DataCollectionDispatcher, der die erwarteten Nachrichten sendet
+    private final static String SDC_DCR1 = "SDC_DCR"; // Queue für den StationDataCollector, der die tatsächlichen Nachrichten sendet
+    private final static String DCR_PG1 = "DCR_PG";// Queue für den PDFGenerator, der die berechneten Gesamtsummen empfängt
+    private final static String HOST1 = "localhost";
+    private final static int PORT1 = 30003;
+    private int expectedCount1;   // Wie viele Nachrichten erwartet werden (kommt von DCD_DCR)
+    private int receivedCount1 = 0; //wiw viele Nachrichten empfangen wurden (kommt von SDC_DCR)
+
+    private static ConnectionFactory factory1; // Factory für RabbitMQ-Verbindungen, um Nachrichten zu empfangen und zu senden
+
+    // Konstruktor, der die Verbindungseinstellungen für RabbitMQ initialisiert.
+    
 
 // Diese Methode startet den Prozess, indem sie zuerst die erwarteten Nachrichten von der DataCollectionDispatcher-Queue (DCD_DCR) absorbiert
     public void absorbExpectedMessages() throws IOException, TimeoutException {
