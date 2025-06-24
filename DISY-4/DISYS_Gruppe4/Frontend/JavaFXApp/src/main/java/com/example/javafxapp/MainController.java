@@ -14,7 +14,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.regex.Pattern;
-import java.util.function.Consumer;
+import java.time.Duration;
 
 public class MainController {
     private static final String API_URL_TEMPLATE = "http://localhost:8080/invoices/%s";
@@ -25,21 +25,17 @@ public class MainController {
 
     private final HttpClient httpClient = HttpClient.newBuilder()
             .version(HttpClient.Version.HTTP_2)
+            .connectTimeout(Duration.ofSeconds(10))
             .build();
+    
     private HostServices hostServices;
 
-    @FXML
-    private Button gatherDataBtn;
-    @FXML
-    private Button downloadBtn;
-    @FXML
-    private TextField CIDField1;
-    @FXML
-    private TextField CIDField2;
-    @FXML
-    private Label InvoiceInformation;
-    @FXML
-    private TextArea InvoiceCreationresponse;
+    @FXML private Button gatherDataBtn;
+    @FXML private Button downloadBtn;
+    @FXML private TextField CIDField1;
+    @FXML private TextField CIDField2;
+    @FXML private Label InvoiceInformation;
+    @FXML private TextArea InvoiceCreationresponse;
 
     public void setHostServices(HostServices hostServices) {
         this.hostServices = hostServices;
@@ -51,7 +47,6 @@ public class MainController {
         downloadBtn.setOnAction(event -> downloadInvoice(CIDField2.getText().trim()));
     }
 
-    @FXML
     private void gatherData(String customerId) {
         if (!isValidCustomerId(customerId)) {
             return;
@@ -59,15 +54,25 @@ public class MainController {
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(createApiUri(customerId))
-                .header("Content-Type", "application/json")
-                .POST(HttpRequest.BodyPublishers.ofString("{\"customerId\": \"" + customerId + "\"}"))
+                .POST(HttpRequest.BodyPublishers.noBody())
                 .build();
 
-        sendAsyncRequest(request, response ->
-                Platform.runLater(() -> {
-                    InvoiceInformation.setText(response);
+        httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                .thenAccept(response -> Platform.runLater(() -> {
+                    if (response.statusCode() == 200) {
+                        InvoiceInformation.setText(response.body());
+                    } else {
+                        InvoiceInformation.setText("Fehler beim Erstellen der Rechnung");
+                    }
                     InvoiceInformation.setVisible(true);
-                }));
+                }))
+                .exceptionally(e -> {
+                    Platform.runLater(() -> {
+                        InvoiceInformation.setText("Verbindungsfehler zum Server");
+                        InvoiceInformation.setVisible(true);
+                    });
+                    return null;
+                });
     }
 
     private void downloadInvoice(String customerId) {
@@ -77,16 +82,30 @@ public class MainController {
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(createApiUri(customerId))
-                .header("Accept", "application/json")
                 .GET()
                 .build();
 
-        try {
-            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-            handleDownloadResponse(response, customerId);
-        } catch (Exception e) {
-            handleError("Fehler beim Herunterladen der Rechnung", e);
-        }
+        httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                .thenAccept(response -> Platform.runLater(() -> {
+                    if (response.statusCode() == 200) {
+                        InvoiceCreationresponse.setText("Rechnung gefunden");
+                        InvoiceCreationresponse.setVisible(true);
+                        openPdfFile(customerId);
+                    } else if (response.statusCode() == 404) {
+                        InvoiceCreationresponse.setText("Keine Rechnung gefunden");
+                        InvoiceCreationresponse.setVisible(true);
+                    } else {
+                        InvoiceCreationresponse.setText("Fehler beim Abrufen der Rechnung");
+                        InvoiceCreationresponse.setVisible(true);
+                    }
+                }))
+                .exceptionally(e -> {
+                    Platform.runLater(() -> {
+                        InvoiceCreationresponse.setText("Verbindungsfehler zum Server");
+                        InvoiceCreationresponse.setVisible(true);
+                    });
+                    return null;
+                });
     }
 
     private boolean isValidCustomerId(String customerId) {
@@ -101,51 +120,17 @@ public class MainController {
         return true;
     }
 
-    private void handleDownloadResponse(HttpResponse<String> response, String customerId) {
-        if (response.statusCode() >= 200 && response.statusCode() < 300) {
-            Platform.runLater(() -> {
-                InvoiceCreationresponse.setText(response.body());
-                InvoiceCreationresponse.setVisible(true);
-                openPdfFile(customerId);
-            });
-        } else {
-            showError("HTTP-Fehler: " + response.statusCode());
-        }
-    }
-
     private void openPdfFile(String customerId) {
-        try {
-            File pdfFile = new File(String.format(PDF_PATH_TEMPLATE, customerId));
-            if (!pdfFile.exists()) {
-                showError("PDF-Datei wurde nicht gefunden: " + pdfFile.getAbsolutePath());
-                return;
-            }
-            if (hostServices != null) {
-                hostServices.showDocument(pdfFile.getAbsolutePath());
-            } else {
-                showError("HostServices nicht verfügbar");
-            }
-        } catch (Exception e) {
-            handleError("Fehler beim Öffnen der PDF-Datei", e);
+        File pdfFile = new File(String.format(PDF_PATH_TEMPLATE, customerId));
+        if (!pdfFile.exists()) {
+            InvoiceCreationresponse.setText("PDF-Datei nicht gefunden");
+            return;
         }
-    }
-
-    private void sendAsyncRequest(HttpRequest request, Consumer<String> responseHandler) {
-        try {
-            httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString())
-                    .thenApply(response -> {
-                        if (response.statusCode() >= 400) {
-                            throw new RuntimeException("HTTP-Fehler: " + response.statusCode());
-                        }
-                        return response.body();
-                    })
-                    .thenAccept(responseHandler)
-                    .exceptionally(throwable -> {
-                        Platform.runLater(() -> handleError("Fehler bei der Anfrage", new Exception(throwable)));
-                        return null;
-                    });
-        } catch (Exception e) {
-            handleError("Fehler beim Senden der Anfrage", e);
+        
+        if (hostServices != null) {
+            hostServices.showDocument(pdfFile.getAbsolutePath());
+        } else {
+            InvoiceCreationresponse.setText("PDF kann nicht geöffnet werden");
         }
     }
 
@@ -159,10 +144,5 @@ public class MainController {
             InvoiceCreationresponse.setText(message);
             InvoiceCreationresponse.setVisible(true);
         });
-    }
-
-    private void handleError(String message, Exception e) {
-        e.printStackTrace();
-        showError(message + ": " + e.getMessage());
     }
 }

@@ -54,7 +54,6 @@ public class Queue {
 
             channel.basicConsume(DCD_SDC, true, deliverCallback, consumerTag -> {});
             
-            // Blockiere den Thread, damit die Anwendung nicht beendet wird
             while (true) {
                 Thread.sleep(1000);
             }
@@ -88,15 +87,16 @@ public class Queue {
 
     private float getKWH(String message) {
         try {
-            String[] parts = message.split("db_url=localhost:|&id=");
-            if (parts.length < 3) {
+            // Nachrichtenformat ändern zu einfacherem Format
+            String[] parts = message.split("&id=");
+            if (parts.length < 2) {
                 throw new IllegalArgumentException("Ungültiges Nachrichtenformat");
             }
             
-            int port = Integer.parseInt(parts[1]);
-            this.id = Integer.parseInt(parts[2]);
+            this.id = Integer.parseInt(parts[1]);
             
-            Database db = new Database(port);
+            // Verwende einen einzelnen Database-Instance ohne Port
+            Database db = new Database(0); // Port wird nicht mehr verwendet
             return db.select(id);
         } catch (Exception e) {
             System.err.println("Fehler beim Parsen der Nachricht: " + e.getMessage());
