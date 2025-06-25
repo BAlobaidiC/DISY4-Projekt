@@ -2,24 +2,21 @@ version: '3.8'
 
 services:
   database:
-    container_name: disys-db
+    container_name: energy-db
     image: postgres:alpine
     ports:
-      - '5433:5432'
+      - '5432:5432'
     environment:
-      - POSTGRES_USER=disysuser
-      - POSTGRES_PASSWORD=disyspw
-      - POSTGRES_DB=disysdb
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=energydb
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./customer_db/init.sql:/docker-entrypoint-initdb.d/01_customer.sql
-      - ./station_1_db/init.sql:/docker-entrypoint-initdb.d/02_station1.sql
-      - ./station_2_db/init.sql:/docker-entrypoint-initdb.d/03_station2.sql
-      - ./station_3_db/init.sql:/docker-entrypoint-initdb.d/04_station3.sql
-      - ./stations_db/init.sql:/docker-entrypoint-initdb.d/05_stations.sql
+      - ./init_tables.sql:/docker-entrypoint-initdb.d/01_init_tables.sql
+      - ./sample_data.sql:/docker-entrypoint-initdb.d/02_sample_data.sql
 
   rabbitmq:
-    container_name: disys-rabbitmq
+    container_name: energy-rabbitmq
     image: rabbitmq:management-alpine
     ports:
       - '5672:5672'
