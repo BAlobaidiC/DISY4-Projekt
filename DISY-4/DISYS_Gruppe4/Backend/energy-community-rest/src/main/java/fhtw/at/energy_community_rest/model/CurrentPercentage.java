@@ -7,16 +7,31 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-import java.time.LocalDateTime;
+/**
+ * Entität zur Speicherung der aktuellen Energienutzungsanteile.
+ * Speichert für jede Stunde die prozentualen Anteile der Energiequellen.
+ */
 @Getter
 @Setter
-
 @Entity
 public class CurrentPercentage {
 
+    /**
+     * Zeitstempel der Messung (auf Stundenbasis)
+     */
     @Id
     private LocalDateTime hour;
 
-    private double communityDepleted; // Always 100.0
-    private double gridPortion;       // (grid_used / total_used) * 100
+    /**
+     * Prozentsatz der von der Community genutzten Energie
+     * Ist immer 100%, da alle Energie entweder aus der Community
+     * oder aus dem Netz kommt
+     */
+    private double communityDepleted;
+
+    /**
+     * Prozentualer Anteil der aus dem Stromnetz bezogenen Energie
+     * Berechnet sich aus: (Netzverbrauch / Gesamtverbrauch) * 100
+     */
+    private double gridPortion;
 }
