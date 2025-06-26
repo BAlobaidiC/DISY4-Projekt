@@ -6,8 +6,12 @@ import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+// RabbitMQ-Konfiguration für die Energy Community User Anwendung (Spring Konfigurationsklasse)
+// Diese Klasse definiert die RabbitMQ-Warteschlange und den MessageConverter für JSON-Nachrichten
+
 @Configuration
 public class RabbitMQConfiguration {
+
     @Bean
     public Queue queue() {
         return new Queue("energy.queue", false);

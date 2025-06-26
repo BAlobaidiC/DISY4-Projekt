@@ -7,21 +7,31 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="energy-community (1)" />
         <module name="energy-community" />
         <module name="gui" />
         <module name="UsageService" />
         <module name="energy-community-user" />
       </profile>
-      <profile name="Annotation profile for energy-community-usage_service" enabled="true">
+      <profile name="Annotation profile for energy-community-rest" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
         </processorPath>
-        <module name="energy-community-usage_service" />
         <module name="energy-community-percentage_service" />
         <module name="energy-community-rest" />
+      </profile>
+      <profile name="Annotation profile for energy-community-usage_service" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar" />
+        </processorPath>
+        <module name="energy-community-usage_service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -33,6 +43,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="SpringApp" options="-parameters" />
       <module name="energy-community" options="-parameters" />
+      <module name="energy-community (1)" options="-parameters" />
       <module name="energy-community-percentage_service" options="-parameters" />
       <module name="energy-community-rest" options="-parameters" />
       <module name="energy-community-usage_service" options="-parameters" />
