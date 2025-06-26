@@ -36,17 +36,24 @@ class EnergyUsageSenderTests {
         ReflectionTestUtils.setField(energyUsageSender, "queueName", QUEUE_NAME);
     }
 
+    /**
+     * Test für das Senden von Nachrichten während der Hauptverkehrszeit
+     */
+
     @Test
     void testeSendeNachrichtZuHauptverkehrszeit() {
-        // Arrange
+        // Arrange: Bereite Testdaten vor
         LocalDateTime spitzenzeit = LocalDateTime.of(2025, 6, 25, 8, 0);
 
-        // Act
+        // Act: Führe die zu testende Aktion aus
+
         energyUsageSender.sendUsageMessage();
 
-        // Assert
+        // Assert: Überprüfe die Ergebnisse
+
         verify(rabbitTemplate).convertAndSend(eq(QUEUE_NAME), messageCaptor.capture());
         EnergyMessage gesendeteNachricht = messageCaptor.getValue();
+        // Überprüfe alle Eigenschaften der Nachricht
 
         assertAll(
             () -> assertEquals("USER", gesendeteNachricht.getType()),
@@ -57,14 +64,21 @@ class EnergyUsageSenderTests {
         );
     }
 
+    /**
+     * Test für das korrekte Format der gesendeten Nachrichten
+     */
+
     @Test
     void testeNachrichtenFormat() {
-        // Act
+        // Act: Sende Testnachricht
+
         energyUsageSender.sendUsageMessage();
 
-        // Assert
+        // Assert: Überprüfe Nachrichtenformat
+
         verify(rabbitTemplate).convertAndSend(eq(QUEUE_NAME), messageCaptor.capture());
         EnergyMessage nachricht = messageCaptor.getValue();
+        // Überprüfe alle erforderlichen Felder
 
         assertAll(
             () -> assertNotNull(nachricht.getType(), 
@@ -78,18 +92,23 @@ class EnergyUsageSenderTests {
         );
     }
 
+    /**
+     * Test für den korrekten Verbrauchsbereich je nach Tageszeit
+     */
+
     @Test
     void testeVerbrauchsbereich() {
-        // Act
+        // Act: Sende Testnachricht
         energyUsageSender.sendUsageMessage();
 
-        // Assert
+        // Assert: Überprüfe Verbrauchswerte
         verify(rabbitTemplate).convertAndSend(eq(QUEUE_NAME), messageCaptor.capture());
         EnergyMessage nachricht = messageCaptor.getValue();
 
         double verbrauch = nachricht.getKwh();
         LocalDateTime zeit = nachricht.getDatetime();
         int stunde = zeit.getHour();
+        // Überprüfe Verbrauchswerte abhängig von der Tageszeit
 
         if ((stunde >= 7 && stunde <= 9) || (stunde >= 17 && stunde <= 20)) {
             assertTrue(verbrauch >= 0.004 && verbrauch <= 0.006,
