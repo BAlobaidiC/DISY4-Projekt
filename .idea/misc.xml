@@ -4,20 +4,24 @@
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
-        <option value="$PROJECT_DIR$/DISY-4/DISYS_Gruppe4/Backend/CurrentPercentageService/pom.xml" />
-        <option value="$PROJECT_DIR$/DISY-4/DISYS_Gruppe4/Backend/energy-community/pom.xml" />
-        <option value="$PROJECT_DIR$/DISY-4/DISYS_Gruppe4/Backend/energy-community-user/pom.xml" />
         <option value="$PROJECT_DIR$/DISY-4/DISYS_Gruppe4/Backend/SpringApp/pom.xml" />
-        <option value="$PROJECT_DIR$/DISY-4/DISYS_Gruppe4/Backend/UsageService/pom.xml" />
-        <option value="$PROJECT_DIR$/DISY-4/DISYS_Gruppe4/Frontend/gui/pom.xml" />
+        <option value="$PROJECT_DIR$/DISY-4/DISYS_Gruppe4/Frontend/JavaFXApp/pom.xml" />
+        <option value="$PROJECT_DIR$/DISY-4/DISYS_Gruppe4/Backend/DataCollectionDispatcher/pom.xml" />
+        <option value="$PROJECT_DIR$/DISY-4/DISYS_Gruppe4/Backend/DataCollectionReceiver/pom.xml" />
+        <option value="$PROJECT_DIR$/DISY-4/DISYS_Gruppe4/Backend/PDFGenerator/pom.xml" />
+        <option value="$PROJECT_DIR$/DISY-4/DISYS_Gruppe4/Backend/StationDataCollector/pom.xml" />
+        <option value="$PROJECT_DIR$/DISY-4/DISYS_Gruppe4/Backend/energy-community/pom.xml" />
         <option value="$PROJECT_DIR$/DISY-4/DISYS_Gruppe4/Backend/energy-community-percentage_service/pom.xml" />
         <option value="$PROJECT_DIR$/DISY-4/DISYS_Gruppe4/Backend/energy-community-rest/pom.xml" />
         <option value="$PROJECT_DIR$/DISY-4/DISYS_Gruppe4/Backend/energy-community-usage_service/pom.xml" />
-        <option value="$PROJECT_DIR$/DISY-4/DISYS_Gruppe4/Backend/energy-community/energy-community/pom.xml" />
+
+
+        <option value="$PROJECT_DIR$/DISY-4/DISYS_Gruppe4/Backend/energy-community-user/pom.xml" />
+        <option value="$PROJECT_DIR$/DISY-4/DISYS_Gruppe4/Frontend/gui/pom.xml" />
       </list>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_24" default="true" project-jdk-name="openjdk-24" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_22" default="true" project-jdk-name="openjdk-24" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
 </project>

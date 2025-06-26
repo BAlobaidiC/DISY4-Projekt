@@ -5,21 +5,22 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Repräsentiert eine Energienachricht im System.
- * Diese Klasse dient zur Speicherung von Energieverbrauchsdaten.
+ * Diese Klasse beschreibt eine Energienachricht,
+ * die vom Producer oder User geschickt wird.
  */
 @Getter
 @Setter
 public class EnergyMessage {
-    /** Der Typ der Energienachricht */
+
+    /** Gibt an, ob die Nachricht vom PRODUCER oder USER kommt */
     private String type;
-    
-    /** Die zugehörige Verbindung oder Gemeinschaft */
+
+    /** Name der Gemeinschaft, z. B. "COMMUNITY" */
     private String association;
-    
-    /** Der Energieverbrauch in Kilowattstunden */
+
+    /** Menge der erzeugten oder verbrauchten Energie in kWh */
     private double kwh;
-    
-    /** Zeitstempel der Nachricht */
+
+    /** Zeitpunkt, an dem die Nachricht erstellt wurde */
     private LocalDateTime datetime;
 }

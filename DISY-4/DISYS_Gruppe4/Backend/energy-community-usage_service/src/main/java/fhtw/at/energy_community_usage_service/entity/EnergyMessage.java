@@ -6,6 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
+// Repräsentiert eine Nachricht mit Energiedaten
 public class EnergyMessage {
     private String type;
     private String association;
